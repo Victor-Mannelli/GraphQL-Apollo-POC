@@ -2,9 +2,9 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { ApolloServer } from "@apollo/server";
 
 const mockUsers = [
-  { id: 1, isAdmin: true, name: "John Doe", username: "johndoe", password: "password1", email: "john@gmail.com" },
-  { id: 2, isAdmin: false, name: "Clark Doe", username: "clarkdoe", password: "password", email: "clark@gmail.com" },
-  { id: 3, isAdmin: false, name: "Sara Doe", username: "saradoe", password: "password", email: "sara@gmail.com" },
+  { id: "1", isAdmin: true, name: "John Doe", username: "johndoe", password: "password1", email: "john@gmail.com" },
+  { id: "2", isAdmin: false, name: "Clark Doe", username: "clarkdoe", password: "password", email: "clark@gmail.com" },
+  { id: "3", isAdmin: false, name: "Sara Doe", username: "saradoe", password: "password", email: "sara@gmail.com" },
 ];
 
 // ? ID! means that the Id field is required, not using "!" would make it optional

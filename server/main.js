@@ -61,15 +61,16 @@ const resolvers = {
       const { id, name, username, password, email, isAdmin } = args;
       const userIndex = mockUsers.findIndex((user) => user.id === id);
       if (userIndex === -1) return null;
-      mockUsers[userIndex] = {
-        ...mockUsers[userIndex],
-        name,
-        username,
-        password,
-        email,
-        isAdmin,
-      };
-      return mockUsers[userIndex];
+
+      const updatedUser = { ...mockUsers[userIndex] };
+      if (name !== undefined) updatedUser.name = name;
+      if (username !== undefined) updatedUser.username = username;
+      if (password !== undefined) updatedUser.password = password;
+      if (email !== undefined) updatedUser.email = email;
+      if (isAdmin !== undefined) updatedUser.isAdmin = isAdmin;
+
+      mockUsers[userIndex] = updatedUser;
+      return updatedUser;
     },
     deleteUser: (_parent, args) => {
       const id = args.id;

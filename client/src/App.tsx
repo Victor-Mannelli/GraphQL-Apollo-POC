@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { CREATE_USER, DELETE_USER, GET_USERS, GET_USER_BY_ID } from './queries';
+import { handleCreateUser, handleDeleteUser } from './utils/functions';
 import { useQuery, useMutation } from '@apollo/client';
+import { UpdateUserModal } from './components';
 import { user_type } from './types';
-import React from 'react';
+import { useState } from 'react';
 import './App.css'
 
 function App() {
@@ -19,49 +22,20 @@ function App() {
   });
   const [createUser] = useMutation(CREATE_USER);
   const [deleteUser] = useMutation(DELETE_USER);
+  const [showUpdateModal, setShowUpdateModal] = useState<boolean>(false);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   if (getUsersLoading) return <p> Loading... </p>
   if (getUsersError) return <p> Error: {getUsersError.message} </p>
 
-  const handleCreateUser = async (e: React.FormEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault()
-      const form = e.target as HTMLFormElement;
-      const name = (form.elements.namedItem('name') as HTMLInputElement).value;
-      const username = (form.elements.namedItem('username') as HTMLInputElement).value;
-      const email = (form.elements.namedItem('email') as HTMLInputElement).value;
-      const password = (form.elements.namedItem('password') as HTMLInputElement).value;
-
-      await createUser({
-        variables: {
-          name, email, username, password, isAdmin: false,
-        },
-        refetchQueries: [{ query: GET_USERS }]
-      })
-    } catch (error) {
-      console.error('Error creating user:', error);
-    }
-  }
-
-  const handleDeleteUser = async (id: number) => {
-    try {
-      await deleteUser({
-        variables: { id: id.toString() },
-        refetchQueries: [{ query: GET_USERS }]
-      });
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  }
-
   return (
     <main>
       <h1 className='title'> Create User </h1>
-      <form onSubmit={handleCreateUser}>
-        <input id='name' type='text' placeholder='Name' />
-        <input id='email' type='text' placeholder='Email' />
-        <input id='username' type='text' placeholder='Username' />
-        <input id='password' type='password' placeholder='Password' />
+      <form className='createform' onSubmit={(e) => handleCreateUser(e, createUser)}>
+        <input id='name' required type='text' placeholder='Name' />
+        <input id='email' required type='text' placeholder='Email' />
+        <input id='username' required type='text' placeholder='Username' />
+        <input id='password' required type='password' placeholder='Password' />
         <button className='submitButton' type='submit'> Create user </button>
       </form>
       <h1 className='title'> Fetch users </h1>
@@ -90,16 +64,25 @@ function App() {
               <p> Name: {user.name} </p>
               <p> Email: {user.email} </p>
               <p> Position: {user.isAdmin ? 'Admin' : 'User'} </p>
-              <button
-                className='deleteButton'
-                onClick={() => handleDeleteUser(user.id)}
-              >
-                Delete
-              </button>
+              <div className='sideButtons'>
+                <button onClick={() => {
+                  setSelectedUserId(user.id.toString())
+                  setShowUpdateModal(!showUpdateModal)
+                }}>
+                  Update
+                </button>
+                <button onClick={() => handleDeleteUser(user.id, deleteUser)}>
+                  Delete
+                </button>
+              </div>
             </div>
           )
         })}
       </div>
+      {showUpdateModal
+        ? <UpdateUserModal userId={selectedUserId} show={showUpdateModal} setShow={setShowUpdateModal} />
+        : null
+      }
     </main>
   )
 }

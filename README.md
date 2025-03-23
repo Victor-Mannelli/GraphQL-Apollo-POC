@@ -64,5 +64,10 @@ Modularized queries and mutations
 /client    → Frontend React app with Apollo Client  
 ```
 
+## 📚 References  
+This POC was inspired by the following resource: 
+
+- [GraphQL + Apollo Crash Course](https://www.youtube.com/watch?v=BNYwj0ZvU1U&ab_channel=PedroTech)
+
 ## 📜 License
 This project is licensed under the MIT License.

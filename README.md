@@ -14,6 +14,7 @@ Make sure you have the following installed on your machine:
 
 ```bash 
   git clone https://github.com/Victor-Mannelli/GraphQL-Apollo-POC.git graphql-apollo-poc
+
   cd graphql-apollo-poc
 ```
 
@@ -22,6 +23,7 @@ Make sure you have the following installed on your machine:
 ```bash 
 cd server
 npm install
+
 cd ../client
 npm install
 ```
@@ -39,8 +41,8 @@ Navigate to the client folder and start the React application:
 
 ```bash 
 npm run dev
-The frontend should now be accessible at http://localhost:5173 (default Vite port).
 ```
+The frontend should now be accessible at http://localhost:5173 (default Vite port).
 
 ## 🛠 Technologies Used
 Backend: Apollo Server, GraphQL, Node.js

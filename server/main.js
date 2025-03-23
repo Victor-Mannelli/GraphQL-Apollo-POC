@@ -73,7 +73,7 @@ const resolvers = {
     },
     deleteUser: (_parent, args) => {
       const id = args.id;
-      const userIndex = mockUsers.findIndex((user) => user.id === id);
+      const userIndex = mockUsers.findIndex((user) => user.id == id);
       if (userIndex === -1) return null;
       const deletedUser = mockUsers[userIndex];
       mockUsers.splice(userIndex, 1);

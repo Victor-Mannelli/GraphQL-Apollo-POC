@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { CreateUserType, UpdateUserType, UserType } from "../types";
+import { MutationFunction } from "@apollo/client";
 import { GET_USERS } from "../queries";
 
 export const handleCreateUser = async (
   e: React.FormEvent<HTMLFormElement>,
-  createUser: any
+  createUser: MutationFunction<UserType, CreateUserType>,
 ) => {
   try {
     e.preventDefault()
@@ -24,26 +25,26 @@ export const handleCreateUser = async (
   }
 }
 
-export const handleUpdateUser = async (
+export const handleUpdateUser = async ({
+  e, updateUser, userId, closeModal
+}: {
   e: React.FormEvent<HTMLFormElement>,
-  updateUser: any,
   userId: string,
   closeModal: () => void,
-) => {
+  updateUser: MutationFunction<UserType, UpdateUserType>
+}) => {
   try {
+    if (!userId) throw new Error("No user id provided");
     e.preventDefault()
     const form = e.target as HTMLFormElement;
-    const variables: Record<string, any> = {};
+    const variables: UpdateUserType = { id: userId };
     const name = (form.elements.namedItem('name') as HTMLInputElement)?.value;
     const username = (form.elements.namedItem('username') as HTMLInputElement)?.value;
     const email = (form.elements.namedItem('email') as HTMLInputElement)?.value;
-    const password = (form.elements.namedItem('password') as HTMLInputElement)?.value;
 
-    variables.id = userId;
     if (name) variables.name = name;
     if (username) variables.username = username;
     if (email) variables.email = email;
-    if (password) variables.password = password;
 
     await updateUser({
       variables,
@@ -57,7 +58,7 @@ export const handleUpdateUser = async (
 
 export const handleDeleteUser = async (
   id: number,
-  deleteUser: any,
+  deleteUser: MutationFunction<UserType, { id: string }>
 ) => {
   try {
     await deleteUser({

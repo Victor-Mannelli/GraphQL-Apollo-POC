@@ -5,6 +5,7 @@ export const GET_USERS = gql`
     getUsers {
       id,
       name,
+      username,
       email,
       isAdmin,
     }
@@ -15,6 +16,7 @@ export const GET_USER_BY_ID = gql`
     getUserById(id: $id) {
       id,
       name,
+      username,
       email,
       isAdmin,
     }

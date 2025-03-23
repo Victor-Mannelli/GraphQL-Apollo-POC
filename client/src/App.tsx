@@ -2,8 +2,8 @@ import { CREATE_USER, DELETE_USER, GET_USERS, GET_USER_BY_ID } from './queries';
 import { handleCreateUser, handleDeleteUser } from './utils/functions';
 import { useCallback, useMemo, useState } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { UpdateUserModal } from './components';
 import { CreateUserType, UserType } from './types';
+import { UpdateUserModal } from './components';
 import './App.css'
 
 function App() {
@@ -61,8 +61,7 @@ function App() {
       </form>
       <h1 className='title'> Fetch users </h1>
       <div id='findByIdCard' className='parentCard'>
-        {getUserError
-          ? <p> Error: {getUserError.message} </p>
+        {getUserError ? <p> Error: {getUserError.message} </p>
           : getUserLoading ? <p> Loading specific user... </p>
             : specificUserCard
         }
@@ -79,8 +78,8 @@ function App() {
               <p> Position: {user.isAdmin ? 'Admin' : 'User'} </p>
               <div className='sideButtons'>
                 <button onClick={() => {
-                  setSelectedUser(user)
-                  setShowUpdateModal(!showUpdateModal)
+                  setSelectedUser(user);
+                  setShowUpdateModal(!showUpdateModal);
                 }}>
                   Update
                 </button>
